@@ -1,2 +1,2 @@
 # internship-practice
-Ana Bačić - Practice repo for internship
+Ana Bacic - Practice repo for internship
