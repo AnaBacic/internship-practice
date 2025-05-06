@@ -1,2 +1,2 @@
 # internship-practice
-Ana Test - Practice repo for internship
+Ana Bacic - Practice repo for internship
