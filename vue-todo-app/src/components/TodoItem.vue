@@ -1,109 +1,107 @@
 <template>
-    <div class="flex items-center justify-between p-3 bg-white rounded shadow">
-      <div class="flex items-center gap-3">
-        <input
-          type="checkbox"
-          :checked="todo.is_complete"
-          @change="toggleComplete"
-          class="w-5 h-5 text-blue-500"
-        />
+    <div
+      :class="[
+        'p-4 rounded-lg shadow-sm flex items-center justify-between border transition',
+        localTodo.is_complete
+          ? 'bg-blue-900 border-2 border-blue-300'
+          : 'bg-blue-300 border-2 border-blue-900 hover:bg-blue-100 cursor-default'
+      ]"
+    >
+      <input
+        type="checkbox"
+        v-model="localTodo.is_complete"
+        @change="updateTodo"
+        class="form-checkbox h-5 w-5 text-blue-200 mr-4 cursor-pointer"
+      />
   
-        <div v-if="isEditing">
+      <div class="flex-1" @dblclick="startEdit">
+        <template v-if="isEditing">
           <input
             v-model="editedText"
-            class="border border-gray-300 rounded px-2 py-1"
+            @keyup.enter="saveEdit"
+            @blur="cancelEdit"
+            class="border-b border-blue-300 focus:outline-none w-full bg-transparent text-blue-900"
+            type="text"
+            autofocus
           />
-        </div>
-        <p
-          v-else
-          :class="{'line-through text-gray-400': todo.is_complete}"
-        >
-          {{ todo.text }}
-        </p>
+        </template>
+        <template v-else>
+          <span
+            :class="{
+              'line-through text-blue-100': localTodo.is_complete,
+              'text-blue-900': !localTodo.is_complete,
+            }"
+          >
+            {{ localTodo.text }}
+          </span>
+        </template>
       </div>
   
-      <div class="flex gap-2">
-        <button
-          v-if="isEditing"
-          @click="saveEdit"
-          class="text-green-600 text-sm hover:underline"
-        >
-          Save
-        </button>
-        <button
-          v-else
-          @click="startEdit"
-          class="text-blue-600 text-sm hover:underline"
-        >
-          Edit
-        </button>
-  
-        <button
-          @click="deleteTodo"
-          class="text-red-500 text-sm hover:underline"
-        >
-          Delete
-        </button>
-      </div>
+      <button
+  @click="deleteTodo"
+  class="ml-4 text-white hover:text-red-300 cursor-pointer"
+  aria-label="Delete task"
+>
+  <TrashIcon class="w-5 h-5" />
+</button>
+
     </div>
   </template>
   
   <script setup>
-  import { ref } from 'vue'
-  import supabase from '@/supabase'
+  import { ref, watch } from 'vue'
+  import { updateTodoInDb, deleteTodoFromDb } from '@/composables/useTodos'
+  import { TrashIcon } from '@heroicons/vue/24/solid'
+
   
   const props = defineProps({
-    todo: Object
+    todo: Object,
   })
   
   const emit = defineEmits(['updated', 'deleted'])
   
+  const localTodo = ref({ ...props.todo })
   const isEditing = ref(false)
-  const editedText = ref(props.todo.text)
+  const editedText = ref(localTodo.value.text)
   
-  const startEdit = () => {
-    isEditing.value = true
-    editedText.value = props.todo.text
-  }
-  
-  const saveEdit = async () => {
-    const { error } = await supabase
-      .from('todos')
-      .update({ text: editedText.value })
-      .eq('id', props.todo.id)
-  
-    if (!error) {
-      isEditing.value = false
-      emit('updated')
-    } else {
-      console.error(error)
+  watch(
+    () => props.todo,
+    (newVal) => {
+      localTodo.value = { ...newVal }
+      editedText.value = newVal.text
     }
+  )
+  
+  const updateTodo = async () => {
+    await updateTodoInDb(localTodo.value)
+    emit('updated')
   }
   
   const deleteTodo = async () => {
-    const { error } = await supabase
-      .from('todos')
-      .delete()
-      .eq('id', props.todo.id)
-  
-    if (!error) {
-      emit('deleted')
-    } else {
-      console.error(error)
-    }
+    await deleteTodoFromDb(localTodo.value.id)
+    emit('deleted')
   }
   
-  const toggleComplete = async () => {
-    const { error } = await supabase
-      .from('todos')
-      .update({ is_complete: !props.todo.is_complete })
-      .eq('id', props.todo.id)
+  const startEdit = () => {
+    if (localTodo.value.is_complete) return
+    isEditing.value = true
+    editedText.value = localTodo.value.text
+  }
   
-    if (!error) {
-      emit('updated')
-    } else {
-      console.error(error)
+  const saveEdit = async () => {
+    if (!editedText.value.trim()) {
+      editedText.value = localTodo.value.text
+      isEditing.value = false
+      return
     }
+    localTodo.value.text = editedText.value.trim()
+    isEditing.value = false
+    await updateTodo()
+  }
+  
+  const cancelEdit = () => {
+    isEditing.value = false
+    editedText.value = localTodo.value.text
   }
   </script>
   

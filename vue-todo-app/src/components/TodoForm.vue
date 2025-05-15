@@ -5,7 +5,7 @@
         class="border px-4 py-2 rounded w-full"
         placeholder="Add a new task"
       />
-      <button class="bg-blue-500 text-white px-4 py-2 rounded" type="submit">Add</button>
+      <button class="bg-blue-300 border-2 border-blue-900 hover:bg-blue-100 text-blue-900 px-4 py-2 rounded cursor-pointer" type="submit">Add</button>
     </form>
   </template>
   
