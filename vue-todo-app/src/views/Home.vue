@@ -32,6 +32,7 @@ onMounted(async () => {
   if (data?.user) {
     user.value = data.user
   }
+  
 })
 
 const logout = async () => {
