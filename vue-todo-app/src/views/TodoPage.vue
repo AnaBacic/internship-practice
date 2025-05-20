@@ -44,14 +44,28 @@
   import { getTodos } from '@/composables/useTodos'
   import TodoItem from '@/components/TodoItem.vue'
   import TodoForm from '@/components/TodoForm.vue'
-  
+  import { useRouter } from 'vue-router'
+  import { useAuth } from '@/composables/useAuth'
+
+
+  const router = useRouter()
+  const { user } = useAuth()  
   const todos = ref([])
+  const loading = ref(true)
   
   const fetchTodos = async () => {
     todos.value = await getTodos()
   }
-  
-  onMounted(fetchTodos)
+
+  onMounted(async () => {
+  if (!user.value) {
+    router.push('/login')
+    return
+  }
+
+  await fetchTodos()
+  loading.value = false
+})
   
   const activeTodos = computed(() => todos.value.filter(todo => !todo.is_complete))
   const completedTodos = computed(() => todos.value.filter(todo => todo.is_complete))

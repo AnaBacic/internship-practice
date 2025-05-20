@@ -5,10 +5,10 @@
         <h1 class="text-xl font-bold">My Todo App</h1>
         <nav class="space-x-4">
           <RouterLink to="/" class="text-gray-700 hover:text-blue-100">Home</RouterLink>
-          <RouterLink to="/todos" class="text-gray-700 hover:text-blue-100">Todo list</RouterLink>
+          <RouterLink v-if="user" to="/todos" class="text-gray-700 hover:text-blue-100">Todo list</RouterLink>
 
           <template v-if="!user">
-            <RouterLink to="/login">
+            <RouterLink v-if="!user" to="/login">
               <button
                 class="bg-blue-300 border-2 border-blue-900 px-4 py-2 rounded-md hover:bg-blue-100 cursor-pointer"
               >

@@ -3,6 +3,8 @@ import Home from '@/views/Home.vue'
 import LoginPage from '@/views/LoginPage.vue'
 import RegisterPage from '@/views/RegisterPage.vue'
 import TodoPage from '@/views/TodoPage.vue'
+import supabase from '@/supabase'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,7 +27,15 @@ const router = createRouter({
     {
       path: '/todos',
       name: 'Todos',
-      component: TodoPage
+      component: TodoPage,
+      beforeEnter: async (to, from, next) => {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (user) {
+          next()
+        } else {
+          next('/login')
+        }
+      }
     }
   ],
 })
