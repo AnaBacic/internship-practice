@@ -22,7 +22,7 @@ export const getTodos = async () => {
   return data
 }
 
-export const addTodo = async (text) => {
+export const addTodo = async (title, description) => {
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -31,7 +31,8 @@ export const addTodo = async (text) => {
 
   const { error } = await supabase.from('todos').insert([
     {
-      text,
+      title,
+      description,
       is_complete: false,
       user_id: user.id,
     },
@@ -46,7 +47,8 @@ export const updateTodoInDb = async (todo) => {
   const { error } = await supabase
     .from('todos')
     .update({
-      text: todo.text,
+      title: todo.title,
+      description: todo.description,
       is_complete: todo.is_complete,
     })
     .eq('id', todo.id)
