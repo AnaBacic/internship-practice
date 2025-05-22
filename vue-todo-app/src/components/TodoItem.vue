@@ -41,16 +41,22 @@
         class="text-white hover:text-yellow-300 cursor-pointer"
         aria-label="Edit task"
       >
-      <PencilIcon class="w-5 h-5" />
+        <PencilIcon class="w-5 h-5" />
       </button>
       <button
-        @click="deleteTodo"
+        @click="confirmDelete"
         class="text-white hover:text-red-300 cursor-pointer"
         aria-label="Delete task"
       >
         <TrashIcon class="w-5 h-5" />
       </button>
     </div>
+
+    <ConfirmDeleteModal
+      v-if="showConfirm"
+      @confirm="deleteConfirmed"
+      @cancel="showConfirm = false"
+    />
   </div>
 </template>
 
@@ -58,6 +64,7 @@
 import { ref, watch } from 'vue'
 import { updateTodoInDb, deleteTodoFromDb } from '@/composables/useTodos'
 import { TrashIcon, PencilIcon } from '@heroicons/vue/24/solid'
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal.vue'
 
 const props = defineProps({
   todo: Object,
@@ -66,6 +73,7 @@ const props = defineProps({
 const emit = defineEmits(['updated', 'deleted', 'edit'])
 
 const localTodo = ref({ ...props.todo })
+const showConfirm = ref(false)
 
 watch(
   () => props.todo,
@@ -79,8 +87,13 @@ const updateTodo = async () => {
   emit('updated')
 }
 
-const deleteTodo = async () => {
+const confirmDelete = () => {
+  showConfirm.value = true
+}
+
+const deleteConfirmed = async () => {
   await deleteTodoFromDb(localTodo.value.id)
   emit('deleted')
+  showConfirm.value = false
 }
 </script>
