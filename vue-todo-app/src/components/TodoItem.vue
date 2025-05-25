@@ -44,27 +44,27 @@
         <PencilIcon class="w-5 h-5" />
       </button>
       <button
-        @click="confirmDelete"
+        @click="requestDelete"
         class="text-white hover:text-red-300 cursor-pointer"
         aria-label="Delete task"
       >
         <TrashIcon class="w-5 h-5" />
       </button>
     </div>
-
-    <ConfirmDeleteModal
-      v-if="showConfirm"
-      @confirm="deleteConfirmed"
-      @cancel="showConfirm = false"
-    />
   </div>
+
+  <DeleteConfirmDialog
+    :open="showConfirm"
+    @confirm="confirmDelete"
+    @cancel="showConfirm = false"
+  />
 </template>
 
 <script setup>
 import { ref, watch } from 'vue'
 import { updateTodoInDb, deleteTodoFromDb } from '@/composables/useTodos'
 import { TrashIcon, PencilIcon } from '@heroicons/vue/24/solid'
-import ConfirmDeleteModal from '@/components/ConfirmDeleteModal.vue'
+import DeleteConfirmDialog from '@/components/DeleteConfirmDialog.vue'
 
 const props = defineProps({
   todo: Object,
@@ -87,11 +87,11 @@ const updateTodo = async () => {
   emit('updated')
 }
 
-const confirmDelete = () => {
+const requestDelete = () => {
   showConfirm.value = true
 }
 
-const deleteConfirmed = async () => {
+const confirmDelete = async () => {
   await deleteTodoFromDb(localTodo.value.id)
   emit('deleted')
   showConfirm.value = false
