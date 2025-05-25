@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-screen bg-white flex flex-col w-full">
 
-    <!-- Hero section -->
     <section class="w-full bg-blue-100 py-20 text-center">
       <div class="w-full px-6">
         <h1 class="text-4xl font-bold text-blue-900 mb-4">My Todo App</h1>
@@ -14,7 +13,6 @@
       </div>
     </section>
 
-    <!-- Features section -->
     <section class="w-full bg-gray-50 py-16">
       <div class="w-full px-6 grid md:grid-cols-3 gap-8 text-center">
         <div class="flex flex-col items-center">
@@ -37,7 +35,6 @@
       </div>
     </section>
 
-    <!-- Call-to-Action section -->
     <section class="w-full bg-blue-900 py-16 text-center text-white">
       <div class="w-full px-6">
         <h2 class="text-3xl font-bold mb-4">Ready to get organized?</h2>
