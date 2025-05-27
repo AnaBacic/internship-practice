@@ -4,6 +4,7 @@ import LoginPage from '@/views/LoginPage.vue'
 import RegisterPage from '@/views/RegisterPage.vue'
 import TodoPage from '@/views/TodoPage.vue'
 import supabase from '@/supabase'
+import NotFoundPage from '@/views/NotFoundPage.vue'
 
 
 const router = createRouter({
@@ -36,6 +37,11 @@ const router = createRouter({
           next('/login')
         }
       }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFoundPage
     }
   ],
 })
