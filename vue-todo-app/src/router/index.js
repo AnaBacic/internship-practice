@@ -5,6 +5,8 @@ import RegisterPage from '@/views/RegisterPage.vue'
 import TodoPage from '@/views/TodoPage.vue'
 import supabase from '@/supabase'
 import NotFoundPage from '@/views/NotFoundPage.vue'
+import ForgotPassword from '@/views/Forgotpassword.vue'
+import ResetPassword from '@/views/ResetPassword.vue'
 
 
 const router = createRouter({
@@ -42,6 +44,14 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
       component: NotFoundPage
+    },
+    {
+      path: '/forgot-password',
+      component: ForgotPassword
+    },
+    {
+      path: '/reset-password',
+      component: ResetPassword
     }
   ],
 })

@@ -47,6 +47,12 @@
       </button>
 
       <p class="text-sm text-center mt-4">
+        <RouterLink to="/forgot-password" class="text-blue-600 hover:underline">
+      Forgot password?
+        </RouterLink>
+      </p>  
+
+      <p class="text-sm text-center mt-4">
         Don't have an account?
         <RouterLink to="/register" class="text-blue-600 hover:underline">Sign up</RouterLink>
       </p>
@@ -60,11 +66,9 @@ import { useRouter } from 'vue-router'
 import supabase from '@/supabase'
 import { Loader2Icon } from 'lucide-vue-next'
 
-// VeeValidate + Yup
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate'
 import * as yup from 'yup'
 
-// Yup validacija (bez min za password!)
 const schema = yup.object({
   email: yup.string().required('Please enter your email').email('Invalid email format'),
   password: yup.string().required('Please enter your password')
