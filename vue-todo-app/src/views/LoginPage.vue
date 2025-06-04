@@ -28,10 +28,10 @@
 
         <button
           type="submit"
-          class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-100 hover:text-blue-900 flex items-center justify-center gap-2"
+          class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-100 hover:text-blue-900 flex items-center justify-center gap-2 cursor-pointer"
           :disabled="loading"
         >
-          <Loader2Icon v-if="loading" class="animate-spin w-5 h-5" />
+          <component :is="Loader2Icon" v-if="loading" class="animate-spin w-5 h-5" />
           <span>{{ loading ? 'Logging in...' : 'Login' }}</span>
         </button>
       </Form>
@@ -40,7 +40,7 @@
 
       <button
         @click="signInWithGoogle"
-        class="w-full border py-2 rounded hover:bg-gray-100"
+        class="w-full border py-2 rounded hover:bg-gray-100 cursor-pointer"
         :disabled="loading"
       >
         Login with Google
@@ -48,9 +48,9 @@
 
       <p class="text-sm text-center mt-4">
         <RouterLink to="/forgot-password" class="text-blue-600 hover:underline">
-      Forgot password?
+          Forgot password?
         </RouterLink>
-      </p>  
+      </p>
 
       <p class="text-sm text-center mt-4">
         Don't have an account?
@@ -61,13 +61,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, defineAsyncComponent, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import supabase from '@/supabase'
-import { Loader2Icon } from 'lucide-vue-next'
-
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate'
 import * as yup from 'yup'
+
+const loading = ref(false)
+const Loader2Icon = computed(() =>
+  loading.value
+    ? defineAsyncComponent(() =>
+        import('lucide-vue-next').then((mod) => mod.Loader2Icon)
+      )
+    : null
+)
 
 const schema = yup.object({
   email: yup.string().required('Please enter your email').email('Invalid email format'),
@@ -75,8 +82,6 @@ const schema = yup.object({
 })
 
 const { errors } = useForm({ validationSchema: schema })
-
-const loading = ref(false)
 const router = useRouter()
 
 const handleLogin = async (values) => {

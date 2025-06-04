@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import viteCompression from 'vite-plugin-compression'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -11,6 +12,7 @@ export default defineConfig({
     tailwindcss(),
     vue(),
     vueDevTools(),
+    viteCompression({ algorithm: 'brotliCompress' })
   ],
   resolve: {
     alias: {

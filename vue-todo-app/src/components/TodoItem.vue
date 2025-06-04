@@ -7,33 +7,35 @@
         : 'bg-blue-300 border-2 border-blue-900 hover:bg-blue-100 cursor-default'
     ]"
   >
-    <input
-      type="checkbox"
-      v-model="localTodo.is_complete"
-      @change="updateTodo"
-      class="form-checkbox h-5 w-5 text-blue-200 mr-4 cursor-pointer"
-    />
-
-    <div class="flex-1">
-      <h3
-        class="font-semibold text-lg"
-        :class="{
-          'line-through text-blue-100': localTodo.is_complete,
-          'text-blue-900': !localTodo.is_complete,
-        }"
-      >
-        {{ localTodo.title }}
-      </h3>
-      <p
-        class="text-sm"
-        :class="{
-          'line-through text-blue-100': localTodo.is_complete,
-          'text-blue-900': !localTodo.is_complete,
-        }"
-      >
-        {{ localTodo.description }}
-      </p>
-    </div>
+    <label class="flex items-center cursor-pointer w-full">
+      <input
+        type="checkbox"
+        v-model="localTodo.is_complete"
+        @change="updateTodo"
+        class="form-checkbox h-5 w-5 text-blue-200 mr-4"
+        :aria-label="`Mark task '${localTodo.title}' as complete`"
+      />
+      <div class="flex-1">
+        <span
+          class="block font-semibold text-lg"
+          :class="{
+            'line-through text-blue-100': localTodo.is_complete,
+            'text-blue-900': !localTodo.is_complete
+          }"
+        >
+          {{ localTodo.title }}
+        </span>
+        <p
+          class="text-sm"
+          :class="{
+            'line-through text-blue-100': localTodo.is_complete,
+            'text-blue-900': !localTodo.is_complete
+          }"
+        >
+          {{ localTodo.description }}
+        </p>
+      </div>
+    </label>
 
     <div class="flex items-center gap-2 ml-4">
       <button
@@ -51,13 +53,13 @@
         <TrashIcon class="w-5 h-5" />
       </button>
     </div>
-  </div>
 
-  <DeleteConfirmDialog
-    :open="showConfirm"
-    @confirm="confirmDelete"
-    @cancel="showConfirm = false"
-  />
+    <DeleteConfirmDialog
+      :open="showConfirm"
+      @confirm="confirmDelete"
+      @cancel="showConfirm = false"
+    />
+  </div>
 </template>
 
 <script setup>
