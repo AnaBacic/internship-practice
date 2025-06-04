@@ -51,6 +51,29 @@
 import { defineAsyncComponent } from 'vue'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/composables/useAuth'
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'My Todo App - Organize Your Life Easily',
+  meta: [
+    {
+      name: 'description',
+      content: 'Organize your tasks with ease. Simple. Fast. Reliable task management for everyone.',
+    },
+    {
+      property: 'og:title',
+      content: 'My Todo App',
+    },
+    {
+      property: 'og:description',
+      content: 'Plan, track and complete your tasks faster and smarter with My Todo App.',
+    },
+    {
+      property: 'og:image',
+      content: '/og-image.jpg', 
+    },
+  ],
+})
 
 const { user } = useAuth()
 

@@ -66,6 +66,29 @@ import { useRouter } from 'vue-router'
 import supabase from '@/supabase'
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate'
 import * as yup from 'yup'
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Login - My Todo App',
+  meta: [
+    {
+      name: 'description',
+      content: 'Login to your account to manage your personal tasks with My Todo App.',
+    },
+    {
+      property: 'og:title',
+      content: 'Login - My Todo App',
+    },
+    {
+      property: 'og:description',
+      content: 'Secure login to manage your tasks from anywhere.',
+    },
+    {
+      property: 'og:image',
+      content: '/og-image.jpg',
+    },
+  ],
+})
 
 const loading = ref(false)
 const Loader2Icon = computed(() =>

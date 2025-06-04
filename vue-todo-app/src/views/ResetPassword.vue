@@ -26,6 +26,29 @@
   <script setup>
   import { ref } from 'vue'
   import supabase from '@/supabase'
+  import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Reset Password - My Todo App',
+  meta: [
+    {
+      name: 'description',
+      content: 'Securely set a new password to continue using your to-do list.',
+    },
+    {
+      property: 'og:title',
+      content: 'Reset Password - My Todo App',
+    },
+    {
+      property: 'og:description',
+      content: 'Choose a new password and regain access to your tasks.',
+    },
+    {
+      property: 'og:image',
+      content: '/og-image.jpg',
+    },
+  ],
+})
   
   const password = ref('')
   const loading = ref(false)

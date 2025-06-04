@@ -52,6 +52,29 @@ import { Loader2Icon } from 'lucide-vue-next'
 
 import { Form, Field, ErrorMessage, useForm } from 'vee-validate'
 import * as yup from 'yup'
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Register - My Todo App',
+  meta: [
+    {
+      name: 'description',
+      content: 'Create your account to start organizing your tasks easily and efficiently.',
+    },
+    {
+      property: 'og:title',
+      content: 'Register - My Todo App',
+    },
+    {
+      property: 'og:description',
+      content: 'Join My Todo App and start managing your life.',
+    },
+    {
+      property: 'og:image',
+      content: '/og-image.jpg',
+    },
+  ],
+})
 
 const loading = ref(false)
 const router = useRouter()

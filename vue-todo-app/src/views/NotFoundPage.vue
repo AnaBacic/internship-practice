@@ -17,4 +17,27 @@
 
 <script setup>
 import { LucideGhost } from 'lucide-vue-next'
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Page Not Found - My Todo App',
+  meta: [
+    {
+      name: 'description',
+      content: 'The page you are looking for does not exist.',
+    },
+    {
+      property: 'og:title',
+      content: '404 - Page Not Found',
+    },
+    {
+      property: 'og:description',
+      content: 'Oops! We couldn’t find the page you were looking for.',
+    },
+    {
+      property: 'og:image',
+      content: '/og-image.jpg',
+    },
+  ],
+})
 </script>

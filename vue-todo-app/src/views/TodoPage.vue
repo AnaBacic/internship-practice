@@ -62,6 +62,29 @@ import EditTodoModal from '@/components/EditTodoModal.vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
 import { Loader2Icon } from 'lucide-vue-next'
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Your ToDos - My Todo App',
+  meta: [
+    {
+      name: 'description',
+      content: 'View and manage all your active and completed tasks in one place.',
+    },
+    {
+      property: 'og:title',
+      content: 'Your ToDos - My Todo App',
+    },
+    {
+      property: 'og:description',
+      content: 'Stay organized with your personal to-do list.',
+    },
+    {
+      property: 'og:image',
+      content: '/og-image.jpg',
+    },
+  ],
+})
 
 const router = useRouter()
 const { user } = useAuth()
